@@ -1,11 +1,15 @@
 import { useState } from 'react';
 
+const STORAGE_KEY = 'userEmail';
+
 function App() {
+  const savedEmail = localStorage.getItem(STORAGE_KEY) || '';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState(savedEmail);
 
   function validateForm() {
     const nextErrors = {};
@@ -31,12 +35,14 @@ function App() {
       return;
     }
 
+    localStorage.setItem(STORAGE_KEY, email);
     setUserEmail(email);
     setPassword('');
     setErrors({});
   }
 
   function handleLogout() {
+    localStorage.removeItem(STORAGE_KEY);
     setUserEmail('');
     setEmail('');
     setPassword('');
