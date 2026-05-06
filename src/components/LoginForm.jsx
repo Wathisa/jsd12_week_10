@@ -8,13 +8,18 @@ function LoginForm({ onLogin }) {
 
   function validateForm() {
     const nextErrors = {};
+    const emailValue = email.trim();
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(email)) {
+    if (emailValue === '') {
+      nextErrors.email = 'Email is required';
+    } else if (!emailPattern.test(emailValue)) {
       nextErrors.email = 'Invalid email address';
     }
 
-    if (password.length < 6) {
+    if (password === '') {
+      nextErrors.password = 'Password is required';
+    } else if (password.length < 6) {
       nextErrors.password = 'Password must be at least 6 characters long';
     }
 
@@ -30,12 +35,13 @@ function LoginForm({ onLogin }) {
       return;
     }
 
-    onLogin(email);
+    onLogin(email.trim());
   }
 
   return (
     <form
       onSubmit={handleSubmit}
+      noValidate
       className="w-full rounded-2xl bg-white/80 p-8 shadow-xl ring-1 ring-white/70"
     >
       <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-violet-500">
@@ -50,7 +56,7 @@ function LoginForm({ onLogin }) {
         </label>
         <input
           id="email"
-          type="email"
+          type="text"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           className={`mt-2 w-full rounded-xl border bg-white/90 px-4 py-3 outline-none transition focus:ring-4 ${
