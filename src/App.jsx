@@ -5,10 +5,20 @@ function App() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    console.log('Email:', email);
+    console.log('Password:', password);
+  }
+
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_15%_85%,#f7c7dd_0,#f7c7dd_16%,transparent_34%),radial-gradient(circle_at_82%_16%,#d8c8ff_0,#d8c8ff_22%,transparent_42%),linear-gradient(135deg,#edf1ff_0%,#fbedf8_48%,#eef5ff_100%)] px-5 py-8 text-slate-900">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-md items-center justify-center">
-        <form className="w-full rounded-2xl bg-white/80 p-8 shadow-[0_24px_80px_rgba(111,89,145,0.18)] ring-1 ring-white/70 backdrop-blur">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full rounded-2xl bg-white/80 p-8 shadow-[0_24px_80px_rgba(111,89,145,0.18)] ring-1 ring-white/70 backdrop-blur"
+        >
           <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-violet-500">
             Login
           </p>
