@@ -3,6 +3,7 @@ import { useState } from 'react';
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_15%_85%,#f7c7dd_0,#f7c7dd_16%,transparent_34%),radial-gradient(circle_at_82%_16%,#d8c8ff_0,#d8c8ff_22%,transparent_42%),linear-gradient(135deg,#edf1ff_0%,#fbedf8_48%,#eef5ff_100%)] px-5 py-8 text-slate-900">
@@ -34,7 +35,7 @@ function App() {
             </label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className="mt-2 w-full rounded-xl border border-violet-100 bg-white/90 px-4 py-3 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
@@ -44,9 +45,10 @@ function App() {
 
           <button
             type="button"
+            onClick={() => setShowPassword(!showPassword)}
             className="mt-4 rounded-xl border border-violet-100 bg-white/70 px-4 py-2 text-sm font-semibold text-violet-600 transition hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-100"
           >
-            Show Password
+            {showPassword ? 'Hide Password' : 'Show Password'}
           </button>
 
           <button
