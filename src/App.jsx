@@ -5,6 +5,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [userEmail, setUserEmail] = useState('');
 
   function validateForm() {
     const nextErrors = {};
@@ -30,17 +31,50 @@ function App() {
       return;
     }
 
-    console.log('Email:', email);
-    console.log('Password:', password);
+    setUserEmail(email);
+    setPassword('');
+    setErrors({});
+  }
+
+  function handleLogout() {
+    setUserEmail('');
+    setEmail('');
+    setPassword('');
+    setErrors({});
+    setShowPassword(false);
   }
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_15%_85%,#f7c7dd_0,#f7c7dd_16%,transparent_34%),radial-gradient(circle_at_82%_16%,#d8c8ff_0,#d8c8ff_22%,transparent_42%),linear-gradient(135deg,#edf1ff_0%,#fbedf8_48%,#eef5ff_100%)] px-5 py-8 text-slate-900">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-md items-center justify-center">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full rounded-2xl bg-white/80 p-8 shadow-[0_24px_80px_rgba(111,89,145,0.18)] ring-1 ring-white/70 backdrop-blur"
-        >
+        {userEmail ? (
+          <div className="w-full rounded-2xl bg-white/80 p-8 text-center shadow-[0_24px_80px_rgba(111,89,145,0.18)] ring-1 ring-white/70 backdrop-blur">
+            <div className="mx-auto flex size-24 items-center justify-center rounded-full bg-violet-500 text-4xl font-bold text-white shadow-lg shadow-violet-200">
+              {userEmail.charAt(0).toUpperCase()}
+            </div>
+
+            <h1 className="mt-7 text-3xl font-bold">Welcome!</h1>
+
+            <div className="mt-7 rounded-xl bg-violet-50/80 p-5 text-left">
+              <p className="text-sm font-medium text-slate-500">Email</p>
+              <p className="mt-2 break-words text-lg font-semibold text-slate-900">
+                {userEmail}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-7 w-full rounded-xl bg-rose-500 px-5 py-3 font-bold text-white shadow-lg shadow-rose-200 transition hover:bg-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-200"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="w-full rounded-2xl bg-white/80 p-8 shadow-[0_24px_80px_rgba(111,89,145,0.18)] ring-1 ring-white/70 backdrop-blur"
+          >
           <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-violet-500">
             Login
           </p>
@@ -107,7 +141,8 @@ function App() {
           >
             Submit
           </button>
-        </form>
+          </form>
+        )}
       </section>
     </main>
   );
