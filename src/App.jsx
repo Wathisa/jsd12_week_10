@@ -4,9 +4,31 @@ function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  function validateForm() {
+    const nextErrors = {};
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+      nextErrors.email = 'Invalid email address';
+    }
+
+    if (password.length < 6) {
+      nextErrors.password = 'Password must be at least 6 characters long';
+    }
+
+    setErrors(nextErrors);
+
+    return Object.keys(nextErrors).length === 0;
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     console.log('Email:', email);
     console.log('Password:', password);
@@ -34,9 +56,18 @@ function App() {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-violet-100 bg-white/90 px-4 py-3 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+              className={`mt-2 w-full rounded-xl border bg-white/90 px-4 py-3 outline-none transition focus:ring-4 ${
+                errors.email
+                  ? 'border-rose-400 focus:border-rose-400 focus:ring-rose-100'
+                  : 'border-violet-100 focus:border-violet-400 focus:ring-violet-100'
+              }`}
               placeholder="name@example.com"
             />
+            {errors.email && (
+              <p className="mt-2 text-sm font-medium text-rose-500">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div className="mt-5">
@@ -48,9 +79,18 @@ function App() {
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-violet-100 bg-white/90 px-4 py-3 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+              className={`mt-2 w-full rounded-xl border bg-white/90 px-4 py-3 outline-none transition focus:ring-4 ${
+                errors.password
+                  ? 'border-rose-400 focus:border-rose-400 focus:ring-rose-100'
+                  : 'border-violet-100 focus:border-violet-400 focus:ring-violet-100'
+              }`}
               placeholder="At least 6 characters"
             />
+            {errors.password && (
+              <p className="mt-2 text-sm font-medium text-rose-500">
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <button
